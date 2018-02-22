@@ -8,17 +8,16 @@ buildscript {
   }
 }
 
-allprojects {
-  repositories { 
-    mavenLocal()
-    mavenCentral()
-  }
+repositories {
+  mavenLocal()
+  mavenCentral()
 }
 
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'base'
 apply plugin: 'java'
+apply plugin: 'maven-publish'
 
 dependencies {
   compile 'org.slf4j:slf4j-log4j12:1.7.5'
@@ -28,3 +27,22 @@ dependencies {
   compile 'org.apache.zookeeper:zookeeper:3.4.6'
 }
 
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            credentials {
+                username comLoxxlyNexusLoxxlyAdminUsername
+                password comLoxxlyNexusLoxxlyAdminPassword
+            }
+            url "https://nexus.loxxly.com/repository/thirdparty/"
+        }
+    }
+}
